@@ -1,0 +1,45 @@
+
+class Solution {
+    public int minOperations(int[] nums, int x) {
+        int n = nums.length;
+        int target = -x;
+        for (int num : nums) {
+            target += num;
+        }
+        
+        if (target == 0) {
+            return n;
+        }
+        
+        int left = 0;
+        int minOps = Integer.MAX_VALUE;
+        int currentSum = 0;
+        
+        for (int right = 0; right < n; right++) {
+            currentSum += nums[right];
+            
+            while (currentSum > target && left <= right) {
+                currentSum -= nums[left];
+                left++;
+            }
+            
+            if (currentSum == target) {
+                minOps = Math.min(minOps, n - (right - left + 1));
+            }
+        }
+        
+        return minOps == Integer.MAX_VALUE ? -1 : minOps;
+    }
+}
+
+class Main
+    {
+        public static void main(String args[])
+        {
+            int nums[]={3,2,20,1,1,3};
+            int x=10;
+            Solution s=new Solution();
+            int y=s.minOperations(nums,x);
+            System.out.println(y);
+        }
+    }
